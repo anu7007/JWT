@@ -1,14 +1,13 @@
 <?php
 
 namespace App\Listeners;
-
 use Phalcon\Events\Event;
 use Phalcon\Security\JWT\Builder;
 use Phalcon\Security\JWT\Signer\Hmac;
 use Phalcon\Security\JWT\Token\Parser;
 use Phalcon\Security\JWT\Validator;
-
-
+use Firebase\JWT\JWT;
+use Firebase\JWT\Key;
 class notificationListeners
 {
     public function afterSend($e)
@@ -50,40 +49,52 @@ class notificationListeners
         //     echo "ACL not found";
         //     die;
         // }
-            
-            $bearer = $application->request->get("bearer");
-            if ($bearer) {
-                try {
-                    
-                    $parser = new Parser();
-                    $tokenObject = $parser->parse($bearer);
-                    $now = new \DateTimeImmutable();
-                    $expires = $now->getTimestamp();
-                    // $expires = $now->modify('+1 day')->getTimestamp();
-                    $validator = new Validator($tokenObject, 100);
-                    $validator->validateExpiration($expires);
-                    // echo 'validated';
-                    // die;
-                    $claims = $tokenObject->getClaims()->getPayLoad();
-                    $role = $claims['sub'];
-                    $controller = $application->router->getControllerName();
-                    $action = $application->router->getActionName();
-                    // die($role);
 
-                    if (!$role || true != $acl->isAllowed($role, $controller, $action)) {
-                        echo "Access Denied...!!!";
-                        die;
-                    }
-                } catch (\Exception $e) {
-                    echo $e->getMessages();
-                    die;
+        $bearer = $application->request->get("bearer");
+        if ($bearer) {
+            try {
+
+                // $parser = new Parser();
+                // $tokenObject = $parser->parse($bearer);
+                // $now = new \DateTimeImmutable();
+                // $expires = $now->getTimestamp();
+                // // $expires = $now->modify('+1 day')->getTimestamp();
+                // $validator = new Validator($tokenObject, 100);
+                // $validator->validateExpiration($expires);
+                // // echo 'validated';
+                // // die;
+                // $claims = $tokenObject->getClaims()->getPayLoad();
+                // $role = $claims['sub'];
+                // $controller = $application->router->getControllerName();
+                // $action = $application->router->getActionName();
+                // // die($role);
+
+                // if (!$role || true != $acl->isAllowed($role, $controller, $action)) {
+                //     echo "Access Denied...!!!";
+                //     die;
+                // }
+                $key = "example_key";
+                $decoded = JWT::decode($bearer, new Key($key, 'HS256'));
+                $role = $decoded->role;
+                $controller = $application->router->getControllerName();
+                $action = $application->router->getActionName();
+                if (!$role || true !== $acl->isAllowed($role, $controller, $action)) {
+                    echo "access denied";
+                    die();
                 }
-            } else {
-                echo "Token not provided";
+                else{
+                    echo "allowed!";
+                }
+            } catch (\Exception $e) {
+                echo $e->getMessage();
                 die;
             }
+        } else {
+            echo "Token not provided";
+            die;
         }
     }
+}
 
 
 
