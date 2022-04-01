@@ -25,22 +25,22 @@
             <div class="row d-flex justify-content-center align-items-center h-100">
                 <div class="col-lg-8 col-xl-6">
 
-                    <h3 class="mb-4 pb-2 pb-md-0 mb-md-3 px-md-2 float-center">Add User</h3>
+                    <h3 class="mb-4 pb-2 pb-md-0 mb-md-3 px-md-2 float-center"><?php echo $this->locale->_('Add User'); ?></h3>
 
                     <form class="px-md-2" method="post" action="">
 
                         <div class="form-floating mb-3">
                             <input name="username" type="text" class="form-control" id="floatingInput" placeholder="name@example.com" autocomplete="off">
-                            <label for="floatingInput">User Name</label>
+                            <label for="floatingInput"><?php echo $this->locale->_('User Name'); ?></label>
                         </div>
 
                         <div class="form-floating mb-3">
                             <input name="email" type="email" class="form-control" id="floatingInput" placeholder="name@example.com" autocomplete="off">
-                            <label for="floatingInput">Email Address</label>
+                            <label for="floatingInput"><?php echo $this->locale->_('Email Address'); ?></label>
                         </div>
                         <div class="form-floating mb-3">
                             <input name="password" type="password" class="form-control" id="floatingInput" placeholder="Password">
-                            <label for="floatingInput">Password</label>
+                            <label for="floatingInput"><?php echo $this->locale->_('Password'); ?></label>
                         </div>
                         <div class="form-floating mb-3">
 
@@ -67,7 +67,7 @@
                         } ?></div></div> -->
                      
 
-                            <input type="submit" value="Add User" class="btn btn-success btn-lg mb-1">
+                            <input type="submit" value="<?php echo $this->locale->_('Add User'); ?>" class="btn btn-success btn-lg mb-1">
 
                     </form>
 
