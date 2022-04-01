@@ -3,9 +3,12 @@
 namespace App\Listeners;
 
 use Phalcon\Events\Event;
-use Phalcon\Acl\Adapter\Memory;
-use Phalcon\Acl\Role;
-use Phalcon\Acl\Component;
+use Phalcon\Security\JWT\Builder;
+use Phalcon\Security\JWT\Signer\Hmac;
+use Phalcon\Security\JWT\Token\Parser;
+use Phalcon\Security\JWT\Validator;
+
+
 class notificationListeners
 {
     public function afterSend($e)
@@ -40,22 +43,63 @@ class notificationListeners
     public function beforeHandleRequest(Event $event, \Phalcon\Mvc\Application $application)
     {
         $aclFile = APP_PATH . '/security/acl.cache';
-        if (true !== is_file($aclFile)) {
-            $acl = new Memory();
-        } else {
-            $acl = unserialize(
-                file_get_contents($aclFile)
-            );
+        if (true === is_file($aclFile)) {
+            $acl = unserialize(file_get_contents($aclFile));
+        }
+        // else{
+        //     echo "ACL not found";
+        //     die;
+        // }
+            
+            $bearer = $application->request->get("bearer");
+            if ($bearer) {
+                try {
+                    
+                    $parser = new Parser();
+                    $tokenObject = $parser->parse($bearer);
+                    $now = new \DateTimeImmutable();
+                    $expires = $now->getTimestamp();
+                    // $expires = $now->modify('+1 day')->getTimestamp();
+                    $validator = new Validator($tokenObject, 100);
+                    $validator->validateExpiration($expires);
+                    // echo 'validated';
+                    // die;
+                    $claims = $tokenObject->getClaims()->getPayLoad();
+                    $role = $claims['sub'];
+                    $controller = $application->router->getControllerName();
+                    $action = $application->router->getActionName();
+                    // die($role);
 
-            $role = $application->request->getQuery('role');
-            $controller = $application->router->getControllerName();
-            $action = $application->router->getActionName();
-            if (!$role || true !== $acl->isAllowed($role, $controller, $action)) {
-                echo "Access denied :(";
-                die();
+                    if (!$role || true != $acl->isAllowed($role, $controller, $action)) {
+                        echo "Access Denied...!!!";
+                        die;
+                    }
+                } catch (\Exception $e) {
+                    echo $e->getMessages();
+                    die;
+                }
             } else {
-                // echo "we don't find any acl list try after somtiome";
+                echo "Token not provided";
+                die;
             }
         }
     }
-}
+
+
+
+        // $acl = unserialize(
+            //     file_get_contents($aclFile)
+            // );
+
+            // $role = $application->request->getQuery('role');
+            // $controller = $application->router->getControllerName();
+            // $action = $application->router->getActionName();
+            // if (!$role || true !== $acl->isAllowed($role, $controller, $action)) {
+            //     echo "Access denied :(";
+            //     die();
+            // } else {
+                // echo "we don't find any acl list try after somtiome";
+            // }
+        // }
+    // }
+// }

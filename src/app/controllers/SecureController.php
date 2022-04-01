@@ -4,10 +4,13 @@ use Phalcon\Mvc\Controller;
 use Phalcon\Acl\Adapter\Memory;
 use Phalcon\Acl\Role;
 use Phalcon\Acl\Component;
-
+use Phalcon\Security\JWT\Builder;
+use Phalcon\Security\JWT\Signer\Hmac;
+use Phalcon\Security\JWT\Token\Parser;
+use Phalcon\Security\JWT\Validator;
 class SecureController extends Controller
 {
-    public function initialize()
+    public function initializeAction()
     {
         $aclFile = APP_PATH . '/security/acl.cache';
         if (true !== is_file($aclFile)) {
@@ -54,8 +57,8 @@ class SecureController extends Controller
 
                         ]
                     );
-                    $ACL->controller = 'x';
-                    $ACL->action = 'x';
+                    $ACL->controller = null;
+                    $ACL->action = null;
                     $success = $ACL->save();
                     $acl->addRole(new Role($postdata['role']));
                     file_put_contents($aclFile, serialize($acl));
