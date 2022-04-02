@@ -50,9 +50,9 @@ class notificationListeners
         //     die;
         // }
 
-        $bearer = $application->request->get("bearer");
-        if ($bearer) {
-            try {
+        // $bearer = $application->request->get("bearer");
+        // if ($bearer) {
+        //     try {
 
                 // $parser = new Parser();
                 // $tokenObject = $parser->parse($bearer);
@@ -73,26 +73,26 @@ class notificationListeners
                 //     echo "Access Denied...!!!";
                 //     die;
                 // }
-                $key = "example_key";
-                $decoded = JWT::decode($bearer, new Key($key, 'HS256'));
-                $role = $decoded->role;
-                $controller = $application->router->getControllerName();
-                $action = $application->router->getActionName();
-                if (!$role || true !== $acl->isAllowed($role, $controller, $action)) {
-                    echo "access denied";
-                    die();
-                }
-                else{
-                    echo "allowed!";
-                }
-            } catch (\Exception $e) {
-                echo $e->getMessage();
-                die;
-            }
-        } else {
-            echo "Token not provided";
-            die;
-        }
+        //         $key = "example_key";
+        //         $decoded = JWT::decode($bearer, new Key($key, 'HS256'));
+        //         $role = $decoded->role;
+        //         $controller = $application->router->getControllerName();
+        //         $action = $application->router->getActionName();
+        //         if (!$role || true !== $acl->isAllowed($role, $controller, $action)) {
+        //             echo "access denied";
+        //             die();
+        //         }
+        //         else{
+        //             echo "allowed!";
+        //         }
+        //     } catch (\Exception $e) {
+        //         echo $e->getMessage();
+        //         die;
+        //     }
+        // } else {
+        //     echo "Token not provided";
+        //     die;
+        // }
     }
 }
 
