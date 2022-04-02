@@ -12,7 +12,7 @@ use Phalcon\Http\Response\Cookies;
 use Phalcon\Session\Adapter\Stream;
 use Phalcon\Events\Event;
 use Phalcon\Events\Manager as EventsManager;
-
+require_once('../vendor/autoload.php');
 $config = new Config([]);
 
 // Define some absolute path constants to aid in locating resources

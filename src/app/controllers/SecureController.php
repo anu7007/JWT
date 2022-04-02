@@ -8,6 +8,7 @@ use Phalcon\Security\JWT\Builder;
 use Phalcon\Security\JWT\Signer\Hmac;
 use Phalcon\Security\JWT\Token\Parser;
 use Phalcon\Security\JWT\Validator;
+
 class SecureController extends Controller
 {
     public function initializeAction()
