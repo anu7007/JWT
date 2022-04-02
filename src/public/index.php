@@ -16,6 +16,10 @@ use Phalcon\Translate\Adapter\NativeArray;
 use Phalcon\Translate\InterpolatorFactory;
 use Phalcon\Translate\TranslateFactory;
 use App\Component\Locale;
+use Phalcon\Cli\Console;
+use Phalcon\Cli\Dispatcher;
+use Phalcon\Di\FactoryDefault\Cli as CliDI;
+use Phalcon\Exception as PhalconException;
 require_once('../vendor/autoload.php');
 $config = new Config([]);
 
