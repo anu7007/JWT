@@ -25,8 +25,8 @@
             <div>
                 <form action="/adduser">
                     <select onchange="this.form.submit()" name="locale" value=<?php echo isset($_GET['locale']) ? $_GET['locale'] : 'english'; ?>>
-
-                        <option value="english" selected>English</option>
+                        <option value="english">Choose Language</option>
+                        <option value="english">English</option>
                         <option value="german">German</option>
                         <option value="hindi">Hindi</option>
                     </select>
