@@ -12,6 +12,10 @@ use Phalcon\Http\Response\Cookies;
 use Phalcon\Session\Adapter\Stream;
 use Phalcon\Events\Event;
 use Phalcon\Events\Manager as EventsManager;
+use Phalcon\Translate\Adapter\NativeArray;
+use Phalcon\Translate\InterpolatorFactory;
+use Phalcon\Translate\TranslateFactory;
+use App\Component\Locale;
 require_once('../vendor/autoload.php');
 $config = new Config([]);
 
@@ -35,15 +39,18 @@ $loader->registerDirs(
         APP_PATH . "/controllers/",
         APP_PATH . "/models/",
         APP_PATH . "/listeners/",
+        APP_PATH . "/component/",        
     ]
 );
 $loader->registerNamespaces([
     'App\Listeners' => APP_PATH . '/listeners',
+    'App\Component' => APP_PATH . '/component'
 ]);
 
 $loader->register();
 
 $container = new FactoryDefault();
+
 
 $container->set(
     'view',
@@ -90,6 +97,9 @@ $container->set(
         return $url;
     }
 );
+
+$container->set('locale',  (new Locale())->getTranslator());
+
 
 $application = new Application($container);
 

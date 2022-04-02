@@ -36,7 +36,7 @@ class AdduserController extends Controller
                 empty($postdata['username']) || empty($postdata['email']) ||
                 empty($postdata['password']) || $postdata['role'] == "0"
             ) {
-                $this->view->adderror = "*Please fill all fields" . '<br>';
+                $this->view->adderror = $this->locale->_('*Please fill all fields!!') . '<br>';
                 // $this->response->redirect('/adduser');
             } else {
                 $key = "example_key";
@@ -84,8 +84,8 @@ class AdduserController extends Controller
                 $success = $adduser->save();
                 if ($success) {
                     $this->view->success = $success;
-                    $this->view->adderror = "*User added Successfully!!" . "<br>";
-                    $this->view->token = $token;
+                    $this->view->adderror = $this->locale->_('*User Added Successfully!!') . '<br>';
+                    // $this->view->token = $token;
                 }
             }
         }
