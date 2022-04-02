@@ -21,7 +21,7 @@ class Locale extends Injectable
         $translationFile = '../app/messages/' . $language . '.php';
 
         if (true !== file_exists($translationFile)) {
-            $translationFile = '../app/messages/en.php';
+            $translationFile = '../app/messages/english.php';
         }
         
         require $translationFile;
