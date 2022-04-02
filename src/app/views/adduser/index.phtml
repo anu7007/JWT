@@ -22,11 +22,25 @@
 
     <section class="h-100 h-custom" style="background-color: #8fc4b7;">
         <div class="container py-5 h-100">
+            <div>
+                <form action="/adduser">
+                    <select onchange="this.form.submit()" name="locale" value=<?php echo isset($_GET['locale']) ? $_GET['locale'] : 'english'; ?>>
+
+                        <option value="english" selected>English</option>
+                        <option value="german">German</option>
+                        <option value="hindi">Hindi</option>
+                    </select>
+                </form>
+                <?php
+                if (isset($_GET['locale'])) {
+                    echo 'Language is set to ' . $_GET['locale'];
+                }
+                ?>
+            </div>
             <div class="row d-flex justify-content-center align-items-center h-100">
                 <div class="col-lg-8 col-xl-6">
 
                     <h3 class="mb-4 pb-2 pb-md-0 mb-md-3 px-md-2 float-center"><?php echo $this->locale->_('Add User'); ?></h3>
-
                     <form class="px-md-2" method="post" action="">
 
                         <div class="form-floating mb-3">
@@ -45,14 +59,14 @@
                         <div class="form-floating mb-3">
 
                             <select class="form-control" name="role">
-                                <option value="0" readonly>Select</option>
-                                <option value="admin">Admin</option>
-                                <option value="user">User</option>
-                                <option value="manager">Manager</option>
-                                <option value="guest">Guest</option>
-                                <option value="other">Other</option>
+                                <option value="0" readonly><?php echo $this->locale->_('Select'); ?></option>
+                                <option value="admin"><?php echo $this->locale->_('Admin'); ?></option>
+                                <option value="user"><?php echo $this->locale->_('User'); ?></option>
+                                <option value="manager"><?php echo $this->locale->_('Manager'); ?></option>
+                                <option value="guest"><?php echo $this->locale->_('Guest'); ?></option>
+                                <option value="other"><?php echo $this->locale->_('Other'); ?></option>
                             </select>
-                            <label for="floatingInput">Choose Role</label>
+                            <label for="floatingInput"><?php echo $this->locale->_('Choose Role'); ?></label>
                         </div>
                         <span class="text text-<?php echo $success === true ? 'success' : 'danger'; ?>">
                             <?php if ($adderror) {
@@ -64,10 +78,10 @@
                             <div class="form-control" style="width:100%; text-align:left; float:left;">
                             <div>
                             <? echo "Token Generated:" . "<br>" . $token;
-                        } ?></div></div> -->
-                     
+                                    } ?></div></div> -->
 
-                            <input type="submit" value="<?php echo $this->locale->_('Add User'); ?>" class="btn btn-success btn-lg mb-1">
+
+                        <input type="submit" value="<?php echo $this->locale->_('Add User'); ?>" class="btn btn-success btn-lg mb-1">
 
                     </form>
 
